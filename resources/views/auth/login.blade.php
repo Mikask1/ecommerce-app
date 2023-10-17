@@ -81,7 +81,7 @@
                 </div>
 
                 <div>
-                    <x-primary-button class="ml-3" style="background-color: #9a4444; margin-top:20px;">
+                    <x-primary-button class="ml-3" style="background-color: #9a4444; margin-top:20px; width: 100%;">
                         {{ __('Log in') }}
                     </x-primary-button>
                 </div>
