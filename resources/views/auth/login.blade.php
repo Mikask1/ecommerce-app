@@ -54,17 +54,17 @@
               <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="form-floating mb-3">
-                    <div>
-                        <x-input-label for="email" :value="__('Email')" />
-                        <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+                    <div class="mt-4"  style="width: 100%">
+                        <x-input-label style="width: 40%" for="email" :value="__('Email')" />
+                        <x-text-input style="width: 50%" id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <div class="mt-4">
-                        <x-input-label for="password" :value="__('Password')" />
+                    <div class="mt-4" style="width: 100%">
+                        <x-input-label style="width: 40%" for="password" :value="__('Password')" />
 
-                        <x-text-input id="password" class="block mt-1 w-full"
+                        <x-text-input style="width: 50%" id="password" class="block mt-1 w-full"
                                         type="password"
                                         name="password"
                                         required autocomplete="current-password" />
