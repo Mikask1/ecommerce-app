@@ -10,7 +10,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
-<body style="background: rgb(250, 190, 120);">
+<body>
 
   <div class="container">
     
@@ -19,11 +19,11 @@
         <img src="https://cdn.discordapp.com/attachments/1163489620005224503/1163492192267026624/shopping2_generated.jpg?ex=653fc58b&is=652d508b&hm=584eeedf71a9afeed31eae89649bdb4c036c2e087f416f6d31d6fed0e23cfc19&" alt="Deskripsi Gambar">
       </div>
 
-        <div class="card text-center col-lg-5 col-md-7" style="padding: 0; border: 0; border-radius: 0;">
-          <div class="card-header cardHeader" style="border-radius: 0; background-color: #9a4444;">
+        <div class="card text-center col-lg-5 col-md-7">
+          <div class="card-header cardHeader">
             <ul class="nav nav-tabs card-header-tabs">
               <li class="nav-item">
-                <a class="nav-link login-show active" style="border: 1px solid white; border-radius: 0;" href="#">Login</a>
+                <a class="nav-link login-show active" href="#">Login</a>
               </li>
               <li class="nav-item">
                 @if (Route::has('login'))
@@ -54,17 +54,17 @@
               <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="form-floating mb-3">
-                    <div class="mt-4"  style="width: 100%">
-                        <x-input-label style="width: 40%" for="email" :value="__('Email')" />
-                        <x-text-input style="width: 50%" id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+                    <div class="mt-4 field">
+                        <x-input-label class="x-input-label" for="email" :value="__('Email')" />
+                        <x-text-input id="email" class="block mt-1 w-full x-text-input" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
                         <x-input-error :messages="$errors->get('email')" class="mt-2" />
                     </div>
                 </div>
                 <div class="form-floating mb-3">
-                    <div class="mt-4" style="width: 100%">
-                        <x-input-label style="width: 40%" for="password" :value="__('Password')" />
+                    <div class="mt-4 field">
+                        <x-input-label class="x-input-label" for="password" :value="__('Password')" />
 
-                        <x-text-input style="width: 50%" id="password" class="block mt-1 w-full"
+                        <x-text-input id="password" class="block mt-1 w-full x-text-input"
                                         type="password"
                                         name="password"
                                         required autocomplete="current-password" />
@@ -73,25 +73,27 @@
                     </div>  
                 </div>
 
-                <div class="block mt-4">
-                    <label for="remember_me" class="inline-flex items-center">
-                        <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                        <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-                    </label>
-                </div>
-
                 <div>
-                    <x-primary-button class="ml-3" style="background-color: #9a4444; margin-top:20px; width: 100%;">
+                    <x-primary-button class="ml-3 loginButton">
                         {{ __('Log in') }}
                     </x-primary-button>
                 </div>
 
-                <div class="flex items-center justify-end mt-4">
+                <div class="flex items-center justify-between mt-4">
+                  <div>
+                    <label for="remember_me" class="inline-flex items-center">
+                      <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
+                      <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
+                    </label>
+                  </div>
+                  <div>
                     @if (Route::has('password.request'))
-                        <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
+                        <a class="forgetPass" href="{{ route('password.request') }}">
                             {{ __('Forgot your password?') }}
                         </a>
                     @endif
+                  </div>
+
                 </div>
 
               </form>
@@ -111,10 +113,19 @@
 
     body {
     font-family: 'Roboto';
+    background: rgb(250, 190, 120);
     }
 
     .card {
-    border: 2px solid black;
+    /* border: 2px solid black; */
+    padding: 0; 
+    border: 0; 
+    border-radius: 20px !important;
+    }
+
+    .cardHeader {
+      border-radius: 20px 20px 0 0  !important; 
+      background-color: #9a4444;
     }
 
     .inner-row {
@@ -157,6 +168,8 @@
     .login-show.active  {
     color: black; /* Warna teks saat aktif (hitam) */
     background-color: white;
+    border: 1px solid white; 
+    border-radius: 20px 0 0 0 !important;
     }
 
     .login-show:not(.active) {
@@ -172,6 +185,7 @@
     .signup-show:not(.active) {
     color: white; /* Warna teks saat tidak aktif (putih) */
     background-color: #4f1d1d !important;  
+    border-radius: 0 20px 0 0 !important;
     }
 
     .login-show:not(.active):hover {
@@ -190,6 +204,39 @@
     margin-bottom: 25px !important;
     font-size: 20px !important;
     color:#4f1d1d;
+    }
+
+    .forgetPass {
+      color: #9a4444 !important;
+      /* text-decoration: none; */
+      /* margin-top: 30px !important; */
+    }
+
+    .x-input-label {
+      width: 30% !important;
+      text-align: left !important;
+    }
+
+    .loginButton {
+      background-color: #9a4444; 
+      margin-top:20px; 
+      width: 100%;
+      border-radius: 10px !important;
+    }
+
+    .loginButton:hover {
+      /* border: 2px solid black !important; */
+      font-weight: bold;
+    }
+
+    .x-text-input {
+      width: 60%;
+      border-radius: 10px !important;
+      padding: 2px 10px !important;
+    }
+
+    .field {
+      width: 100%;
     }
 
 </style>
