@@ -2,24 +2,37 @@
 
 namespace App\Http\Module\Product\Domain\Model;
 
-use App\Models\Cart;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
+use Illuminate\Notifications\Notifiable;
 
-class Product
+class Product extends Model
 {
+    use Notifiable, HasFactory;
+
     /**
-     * @param string $nama
-     * @param float $price
-     * @param string $description
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
      */
-    public function __construct(
-        public string $nama,
-        public int $price,
-        public string $description,
-    )
+    protected $fillable = [
+        'nama_produk',
+        'gambar',
+        'deskripsi',
+        'rating',
+        'harga',
+        'kondisi',
+        'kategori'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+
+    public function kategori()
     {
+        return $this->belongsTo(Categories::class);
     }
 }
