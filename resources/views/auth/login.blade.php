@@ -231,7 +231,7 @@
 
     .x-text-input {
       width: 60%;
-      border-radius: 10px !important;
+      border-radius: 4px !important;
       padding: 2px 10px !important;
     }
 
