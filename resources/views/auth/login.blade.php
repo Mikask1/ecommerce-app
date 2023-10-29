@@ -79,14 +79,14 @@
                     </x-primary-button>
                 </div>
 
-                <div class="flex items-center justify-between mt-4">
-                  <div>
+                <div class="row align-items-start forgetRemember">
+                  <div class="col remember">
                     <label for="remember_me" class="inline-flex items-center">
                       <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
                       <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
                     </label>
                   </div>
-                  <div>
+                  <div class="col forget">
                     @if (Route::has('password.request'))
                         <a class="forgetPass" href="{{ route('password.request') }}">
                             {{ __('Forgot your password?') }}
@@ -237,6 +237,10 @@
 
     .field {
       width: 100%;
+    }
+
+    .forgetRemember {
+      padding: 10px 0;
     }
 
 </style>
