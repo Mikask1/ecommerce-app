@@ -21,9 +21,8 @@
     <div class="container">
 
         <div class="row justify-content-center align-items-center inner-row">
-            <div class="col-md-5 gambar">
-                <img src="https://cdn.discordapp.com/attachments/1163489620005224503/1163492192267026624/shopping2_generated.jpg?ex=653fc58b&is=652d508b&hm=584eeedf71a9afeed31eae89649bdb4c036c2e087f416f6d31d6fed0e23cfc19&"
-                    alt="Deskripsi Gambar">
+            <div class="col-md-6 gambar">
+                <img src="https://cdn.discordapp.com/attachments/1163489620005224503/1168180643176386580/New_Project_1.png?ex=6550d401&is=653e5f01&hm=740830cbb0395f434228d073c49620ce789254aa40a6d22b39c70560d21a25ce&" alt="Deskripsi Gambar">
             </div>
 
             <div class="card text-center col-lg-5 col-md-7">
@@ -138,7 +137,7 @@
 
         body {
             font-family: 'Roboto';
-            background: rgb(250, 190, 120);
+            background: white;
         }
 
         .card {
@@ -146,11 +145,16 @@
             padding: 0;
             border: 0;
             border-radius: 20px !important;
+            background-color: #c8b8df;
         }
 
         .cardHeader {
             border-radius: 20px 20px 0 0 !important;
-            background-color: #9a4444;
+            background-color: #3c0f83 !important;
+        }
+        
+        .lead {
+        color: #3c0f83 !important;
         }
 
         .form-box {
@@ -162,20 +166,8 @@
             height: 100vh;
         }
 
-        .primaryBg {
-            margin-top: 20px !important;
-            background-color: #9a4444 !important;
-            /* border-radius: 0 !important; */
-            font-size: 17px !important;
-            width: 100%;
-        }
-
         .primaryColor {
             color: rgb(19, 19, 19);
-        }
-
-        .signupBtn {
-            background: #183;
         }
 
         .login-form {
@@ -189,7 +181,7 @@
             height: auto;
         }
 
-        @media screen and (max-width: 768px) {
+        @media screen and (max-width: 991px) {
             .gambar img {
                 display: none;
             }
@@ -197,30 +189,29 @@
 
         .login-show.active {
             color: black;
-            /* Warna teks saat aktif (hitam) */
-            background-color: white;
-        }
-
-        .login-show:not(.active) {
-            color: white;
-            /* Warna teks saat tidak aktif (putih) */
-            background-color: #4f1d1d !important;
+            background-color: #c8b8df !important;
+            border: 1px solid #c8b8df !important; 
             border-radius: 20px 0 0 0 !important;
         }
 
-        .signup-show.active {
+        .login-show:not(.active) {
             color: black;
-            /* Warna teks saat aktif (hitam) */
-            /* background-color: white; */
-            background-color: white;
-            border: 1px solid white;
+            /* Warna teks saat tidak aktif (putih) */
+            background-color: white !important;
+            border-radius: 20px 0 0 0 !important;
+        }
+
+        .signup-show.active  {
+            color: black !important; /* Warna teks saat aktif (hitam) */
+            background-color: #c8b8df !important;
+            border: 1px solid #c8b8df !important; 
             border-radius: 0 20px 0 0 !important;
         }
 
         .signup-show:not(.active) {
-            color: white;
-            /* Warna teks saat tidak aktif (putih) */
-            background-color: #4f1d1d !important;
+            color: black; /* Warna teks saat tidak aktif (putih) */
+            background-color: white !important;  
+            border-radius: 0 20px 0 0 !important; */
         }
 
         .login-show:not(.active):hover {
@@ -247,7 +238,7 @@
         }
 
         .registerButton {
-            background-color: #9a4444;
+            background-color: #3c0f83;
             margin-top: 20px;
             width: 100%;
             border-radius: 10px !important;
