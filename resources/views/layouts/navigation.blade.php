@@ -176,7 +176,7 @@
     .navbar {    
         background-color: white;
         font-family: 'Roboto';
-        border-bottom: 2px solid black;
+        /* border-bottom: 2px solid black; */
     }
 
     .nav-link {
