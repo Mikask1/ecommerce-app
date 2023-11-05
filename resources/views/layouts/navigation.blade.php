@@ -8,21 +8,31 @@
 
 <nav class="navbar navbar-expand-lg navbar-light">
   <a class="navbar-brand" href="{{ route('dashboard') }}">
-    <img src="https://cdn.discordapp.com/attachments/1163489620005224503/1168369773722222676/logo-no-background.png?ex=65518425&is=653f0f25&hm=1cb98a506b2d396780f3a8bd664895563635d185a7ab72803eba6479f42c3b2b&" width="30" height="30" class="d-inline-block align-top" alt="">
+    <img src="https://cdn.discordapp.com/attachments/1163489620005224503/1170615904049037362/pikasa-high-resolution-logo-white-transparent.png?ex=6559b004&is=65473b04&hm=d22ba723837e1331d545e53f47800787ef55897922c0de047dc2033030414d09&" width="30" height="30" class="d-inline-block align-top" alt="">
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarText">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+    <ul class="navbar-nav">
+      <!-- <li class="nav-item active">
         <a class="nav-link" href="{{ route('dashboard') }}">Home <span class="sr-only">(current)</span></a>
+      </li> -->
+      <li class="nav-item">
+        <a class="nav-link" href="#">Kategori</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Categories</a>
+        <a class="nav-link" href="#">Terbaru</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Cart</a>
+        <a class="nav-link" href="#">Promo</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Keranjang
+        <!-- <span class="material-symbols-outlined">
+            shopping_cart
+        </span> -->
+        </a>
       </li>
       <li class="nav-item nav-link ml-auto">
         <x-dropdown align="center" width="100">
@@ -174,14 +184,14 @@
     @import url(https://fonts.googleapis.com/css?family=Roboto:300);
 
     .navbar {    
-        background-color: white;
+        background-color: #3c0f83;
         font-family: 'Roboto';
         /* border-bottom: 2px solid black; */
     }
 
     .nav-link {
         padding: 10px 15px 10px 15px !important;
-        color: #3c0f83; 
+        color: white; 
         font-weight: 800;
         padding-bottom: 10px; 
         border-bottom: 4px solid transparent;
@@ -189,8 +199,8 @@
 
     .nav-link:hover {
         /* font-weight: 900; */
-        color: #3c0f83; 
-        border-bottom: 4px solid #3c0f83;
+        color: #c8b8df; 
+        border-bottom: 4px solid #c8b8df;
     }
 
     .navbar-brand {
