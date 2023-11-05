@@ -6,7 +6,7 @@
 
 </head>
 
-<nav class="navbar navbar-expand-lg navbar-light">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
   <a class="navbar-brand" href="{{ route('dashboard') }}">
     <img src="https://cdn.discordapp.com/attachments/1163489620005224503/1170615904049037362/pikasa-high-resolution-logo-white-transparent.png?ex=6559b004&is=65473b04&hm=d22ba723837e1331d545e53f47800787ef55897922c0de047dc2033030414d09&" width="30" height="30" class="d-inline-block align-top" alt="">
   </a>
