@@ -4,6 +4,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Events\MessageCreated;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,7 @@ foreach (scandir($path = app_path('Http/Module')) as $dir) {
 }
 
 Route::get('/', function () {
+    MessageCreated::dispatch('lorem ipsum');
     return view('welcome');
 });
 
