@@ -7,7 +7,7 @@
 </head>
 
 <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-  <a class="navbar-brand" href="{{ route('dashboard') }}">
+  <a class="navbar-brand" href="{{ route('products') }}">
     <img src="https://cdn.discordapp.com/attachments/1163489620005224503/1170615904049037362/pikasa-high-resolution-logo-white-transparent.png?ex=6559b004&is=65473b04&hm=d22ba723837e1331d545e53f47800787ef55897922c0de047dc2033030414d09&" width="30" height="30" class="d-inline-block align-top" alt="">
   </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -16,7 +16,7 @@
   <div class="collapse navbar-collapse" id="navbarText">
     <ul class="navbar-nav">
       <!-- <li class="nav-item active">
-        <a class="nav-link" href="{{ route('dashboard') }}">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="{{ route('products') }}">Home <span class="sr-only">(current)</span></a>
       </li> -->
       <li class="nav-item">
         <a class="nav-link" href="#">Kategori</a>
@@ -79,25 +79,25 @@
             <div class="flex">
                 
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('products') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200" />
                     </a>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                    <x-nav-link :href="route('products')" :active="request()->routeIs('products')">
+                        {{ __('Products') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('products')" :active="request()->routeIs('products')">
                         {{ __('Categories') }}
                     </x-nav-link>
                 </div>
 
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    <x-nav-link :href="route('products')" :active="request()->routeIs('products')">
                         {{ __('Cart') }}
                     </x-nav-link>
                 </div>
@@ -149,8 +149,8 @@
 
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+            <x-responsive-nav-link :href="route('products')" :active="request()->routeIs('products')">
+                {{ __('Products') }}
             </x-responsive-nav-link>
         </div>
 
@@ -193,7 +193,6 @@
         padding: 10px 15px 10px 15px !important;
         color: white; 
         font-weight: 800;
-        padding-bottom: 10px; 
         border-bottom: 4px solid transparent;
     }
 

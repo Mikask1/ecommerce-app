@@ -12,6 +12,7 @@ return new class extends Migration {
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->string('nama_kategori')->primary();
+            $table->string('slug');
             $table->timestamps();
         });
     }
