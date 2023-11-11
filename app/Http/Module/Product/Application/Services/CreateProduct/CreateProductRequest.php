@@ -12,7 +12,5 @@ class CreateProductRequest
         public float $harga,
         public string $kondisi,
         public string $kategori
-    ) {
-    }
-
+    ) {}
 }
