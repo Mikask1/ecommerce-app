@@ -16,5 +16,6 @@ class Categories extends Model
      */
     protected $fillable = [
         'nama_kategori',
+        'slug',
     ];
 }

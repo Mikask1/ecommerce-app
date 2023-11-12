@@ -2,11 +2,12 @@
 
 namespace App\Http\Module\Product\Domain\Model;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
-class Product extends Model
+class KeranjangItem extends Model
 {
     use Notifiable, HasFactory;
 
@@ -16,22 +17,18 @@ class Product extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'nama_produk',
-        'gambar',
-        'deskripsi',
-        'rating',
-        'harga',
-        'kondisi'
+        'quantity',
+        'user_id',
+        'product_id'
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-
-    public function category()
+    public function user()
     {
-        return $this->belongsTo(Categories::class, 'kategori');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
     }
 }
