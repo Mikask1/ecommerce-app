@@ -4,25 +4,28 @@
 
         <div class="container p-5 my-3">
 
-            <div class="product-card d-flex align-items-center">
-                <div class="check">
-                    <input class="formcheck" type="checkbox" value="" id="product1">
+            @foreach ($products as $product)
+                <div class="product-card d-flex align-items-center">
+                    <div class="check">
+                        <input class="formcheck" type="checkbox" value="" id="{{ 'product' . $product->id }}">
+                    </div>
+                    <div class="product-img">
+                        <img src="{{ asset('storage/' . $product->gambar) }}" width="60" height="60"
+                            class="d-inline-block align-top" alt="{{ $product->name }}">
+                    </div>
+                    <div class="row product-info d-flex align-items-center mr-2">
+                        <h4 class="nama">{{ $product->nama_produk }}</h4>
+                        <p>Rp{{ number_format($product->harga, 2) }}</p>
+                    </div>
+                    <div class="product-actions">
+                        <button class="btn" type="button" onclick="decreaseQuantity()">-</button>
+                        <input type="text" class="form-control quantityinput" id="quantityInput"
+                            aria-label="Quantity" value="1"
+                            oninput="this.value=this.value.replace(/[^0-9]/g,''); validateQuantity(this)">
+                        <button class="btn" type="button" onclick="increaseQuantity()">+</button>
+                    </div>
                 </div>
-                <div class="product-img">
-                    <img src="https://cdn.discordapp.com/attachments/1163489620005224503/1168369773722222676/logo-no-background.png?ex=655abea5&is=654849a5&hm=77b41f85e26d4ec9d72a7ce9fced1a307b315da76ead077237a5121c47914986&" width="60" height="60" class="d-inline-block align-top" alt="">
-                </div>
-                <div class="row product-info d-flex align-items-center mr-2">
-
-                    <h4 class="nama">Nama produk</h4>
-                    <p>Rp20.000,00</p>
-
-                </div>
-                <div class="product-actions">
-                    <button class="btn" type="button" onclick="decreaseQuantity()">-</button>
-                    <input type="text" class="form-control quantityinput" id="quantityInput" aria-label="Quantity" value="1" oninput="this.value=this.value.replace(/[^0-9]/g,''); validateQuantity(this)">
-                    <button class="btn" type="button" onclick="increaseQuantity()">+</button>
-                </div>
-            </div>
+            @endforeach
         </div>
 
         <div class="fixed-bottom d-flex align-items-stretch bottom">

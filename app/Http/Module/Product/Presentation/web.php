@@ -16,4 +16,4 @@ Route::get('product/{id}', [ProductController::class, 'getProduct'])->middleware
 
 Route::post('product/add_to_cart', [KeranjangItemController::class, 'addToCart'])->middleware(['auth', 'verified'])->name('product/add_to_cart');
 
-Route::get('keranjang', [KeranjangItemController::class, 'listKeranjangItem'])->middleware(['auth', 'verified'])->name('keranjang');
+Route::get('cart', [KeranjangItemController::class, 'listKeranjangItem'])->name('cart');

@@ -7,6 +7,7 @@ use App\Http\Module\Product\Application\Services\CreateKeranjangItems\CreateKera
 use App\Http\Module\Product\Domain\Model\KeranjangItem;
 use App\Http\Module\Product\Domain\Model\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class KeranjangItemController
 {
@@ -48,6 +49,11 @@ class KeranjangItemController
 
         $keranjangItems = KeranjangItem::where('user_id', $user->id)->get();
 
-        return $keranjangItems;
-    }
+        $products = [];
+        foreach ($keranjangItems as $keranjangItem) {
+            $products[] = $keranjangItem->product;
+        }
+        
+        return view('cart', ['products' => $products]);
+    }   
 }
