@@ -22,7 +22,7 @@ class KeranjangItemController
         
         $request->validate([
             'product_id' => 'required',
-            'quantity' => 'required|integer|min:1',
+            'quantity' => 'required|integer',
         ]);
         
         $product_id = $request->input('product_id');
