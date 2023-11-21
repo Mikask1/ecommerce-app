@@ -2,12 +2,11 @@
 
 namespace App\Http\Module\Product\Presentation\Controller;
 
-use App\Http\Module\Product\Application\Services\CreateKeranjangItems\CreateKeranjangItemsRequest;
-use App\Http\Module\Product\Application\Services\CreateKeranjangItems\CreateKeranjangItemsService;
 use App\Http\Module\Product\Application\Services\CreateProduct\CreateProductRequest;
 use App\Http\Module\Product\Application\Services\CreateProduct\CreateProductService;
 use App\Http\Module\Product\Domain\Model\Categories;
 use App\Http\Module\Product\Domain\Model\Product;
+use App\Http\Module\Transaction\Domain\Model\TransactionDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -31,11 +30,11 @@ class ProductController
         ]);
 
         $category = Categories::find($request->input('kategori'));
-        
-        if ($category){
+
+        if ($category) {
             return response()->json(['error' => 'Category not found'], 404);
         }
-        
+
         $createProductRequest = new CreateProductRequest(
             $request->input('nama_produk'),
             $request->input('gambar'),
@@ -45,7 +44,7 @@ class ProductController
             $request->input('kondisi'),
             $request->input('kategori')
         );
-        
+
         $this->create_product_service->execute($createProductRequest);
 
         return response()->json(['message' => 'Product created successfully']);
@@ -75,6 +74,16 @@ class ProductController
     public function getProduct($id)
     {
         $product = Product::find($id);
+
+        // Retrieve all reviews for the product
+        $reviews = TransactionDetail::where('produk_id', $id)
+            ->whereNotNull('review')
+            ->where('review', '<>', '')
+            ->select('review', 'rating')
+            ->get();
+
+        $product->reviews = $reviews;
+
         return view('product', compact('product'));
     }
 }

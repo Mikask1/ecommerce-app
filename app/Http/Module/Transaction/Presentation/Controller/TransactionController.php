@@ -65,4 +65,27 @@ class TransactionController
 
         return view('transactions', ['transactions' => $transactions]);
     }
+
+    public function updateReview(Request $request)
+    {
+        $user = auth()->user();
+
+        $request->validate([
+            'transaction_detail_id' => 'required|integer|exists:transaction_details,id',
+            'review' => 'required|string',
+            'rating' => 'required|numeric|min:1|max:5',
+        ]);
+
+        $transactionDetailId = $request->input('transaction_detail_id');
+
+        $transactionDetail = TransactionDetail::find($transactionDetailId);
+
+        $transactionDetail->update([
+            'review' => $request->input('review'),
+            'rating' => $request->input('rating'),
+        ]);
+
+        return response()->json(['message' => 'Review updated successfully']);
+    }
+
 }

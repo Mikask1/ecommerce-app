@@ -31,6 +31,20 @@
                         </div>
                     </div>
                 </div>
+                <h4 class="deskripsi-text" style="padding-bottom:10px;">Reviews</h4>
+                @foreach ($product->reviews as $review)
+                    <div>
+                            <div class="tags" style="display: inline">
+                                <span class="material-symbols-outlined"
+                                    style="font-size: 15px; font-variation-settings: 'FILL' 1;">
+                                    grade
+                                </span>
+                                {{ $review->rating }}
+                            </div>
+                            <h6 class="deskripsi-text" style="display: inline">Anonymous</h6>
+                        <p style="color:black;padding:10px;">{{ $review->review }}</p>
+                    </div>
+                @endforeach
             </div>
         </div>
 
