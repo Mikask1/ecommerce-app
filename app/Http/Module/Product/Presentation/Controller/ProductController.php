@@ -56,7 +56,7 @@ class ProductController
     {
         $category = $request->input('category');
         $cacheKey = 'products_' . $category;
-        
+
         if (Cache::has($cacheKey)) {
             $products = Cache::get($cacheKey);
         } else {
@@ -84,12 +84,13 @@ class ProductController
     {
         $product = Product::find($id);
 
-        // Retrieve all reviews for the product
-        $reviews = TransactionDetail::where('produk_id', $id)
-            ->whereNotNull('review')
-            ->where('review', '<>', '')
-            ->select('review', 'rating')
-            ->get();
+        $reviews = Cache::remember('product_reviews_' . $id, 5, function () use ($id) {
+            return TransactionDetail::where('produk_id', $id)
+                ->whereNotNull('review')
+                ->where('review', '<>', '')
+                ->select('review', 'rating')
+                ->get();
+        });
 
         $product->reviews = $reviews;
 
