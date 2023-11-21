@@ -8,6 +8,7 @@ use App\Http\Module\Product\Domain\Model\Categories;
 use App\Http\Module\Product\Domain\Model\Product;
 use App\Http\Module\Transaction\Domain\Model\TransactionDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 
 class ProductController
@@ -54,18 +55,26 @@ class ProductController
     public function listProducts(Request $request)
     {
         $category = $request->input('category');
-
-        if ($category) {
-            $category = Categories::where('slug', $category)->first();
-
+        $cacheKey = 'products_' . $category;
+        
+        if (Cache::has($cacheKey)) {
+            $products = Cache::get($cacheKey);
+        } else {
             if ($category) {
-                $products = Product::where('kategori', $category->nama_kategori)->get();
+                $categoryModel = Categories::where('slug', $category)->first();
+
+                if ($categoryModel) {
+                    $products = Product::where('kategori', $categoryModel->nama_kategori)->get();
+                } else {
+                    $products = Product::all();
+                }
             } else {
                 $products = Product::all();
             }
-        } else {
-            $products = Product::all();
+
+            Cache::put($cacheKey, $products, 60);
         }
+
         $categories = Categories::all();
 
         return view('products', compact('products', 'categories'));

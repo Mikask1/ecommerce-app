@@ -5,11 +5,18 @@ namespace App\Http\Module\Transaction\Presentation\Controller;
 use App\Http\Module\Product\Domain\Model\Product;
 use App\Http\Module\Transaction\Domain\Model\Transaction;
 use App\Http\Module\Transaction\Domain\Model\TransactionDetail;
+use App\Http\Module\Transaction\Application\Services\UpdateTransactionStatusService;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class TransactionController
 {
+    public function __construct(
+        private UpdateTransactionStatusService $update_transaction_status_service
+    ) {
+    }
+
     public function createTransaction(Request $request)
     {
         $request->validate([
@@ -68,8 +75,6 @@ class TransactionController
 
     public function updateReview(Request $request)
     {
-        $user = auth()->user();
-
         $request->validate([
             'transaction_detail_id' => 'required|integer|exists:transaction_details,id',
             'review' => 'required|string',
@@ -88,4 +93,41 @@ class TransactionController
         return response()->json(['message' => 'Review updated successfully']);
     }
 
+    public function updateStatus(Request $request, $transactionId)
+    {
+        $transaction = Transaction::find($transactionId);
+
+        if (!$transaction) {
+            return response()->json(['message' => 'No transaction with that ID found'], 404);
+        }
+        
+        return $this->update_transaction_status_service->updateStatus($transaction, $request);
+    }
+
+    private function updateDelivered(Transaction $transaction, $date = null)
+    {
+        $transaction->status = 'DELIVERED';
+        $transaction->tanggal_pengiriman = $date ?? Carbon::now();
+        $transaction->save();
+
+        return response()->json(['message' => 'Status updated to DELIVERED.']);
+    }
+
+    private function updateArrived(Transaction $transaction, $date = null)
+    {
+        $transaction->status = 'ARRIVED';
+        $transaction->tanggal_sampai = $date ?? Carbon::now();
+        $transaction->save();
+
+        return response()->json(['message' => 'Status updated to ARRIVED.']);
+    }
+
+    private function updatePacking(Transaction $transaction, $date = null)
+    {
+        $transaction->status = 'PACKING';
+        $transaction->tanggal_pengemasan = $date ?? Carbon::now();
+        $transaction->save();
+
+        return response()->json(['message' => 'Status updated to PACKING.']);
+    }
 }
