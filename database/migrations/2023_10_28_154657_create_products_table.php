@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->decimal('rating', 12, 2);
             $table->decimal('harga', 12, 0);
             $table->enum('kondisi', ['Baru', 'Bekas',])->default('Baru');
+            $table->integer('stok')->default(0);
             $table->string('kategori');
             $table->foreign('kategori')->references('nama_kategori')->on('categories');
             $table->timestamps();

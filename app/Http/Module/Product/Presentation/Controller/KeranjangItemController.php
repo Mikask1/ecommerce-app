@@ -19,20 +19,20 @@ class KeranjangItemController
     public function addToCart(Request $request)
     {
         $user = auth()->user();
-        
+
         $request->validate([
             'product_id' => 'required',
             'quantity' => 'required|integer',
         ]);
-        
+
         $product_id = $request->input('product_id');
 
         $product = Product::find($product_id);
-
+        
         if (!$product) {
             return response()->json(['error' => 'Product not found'], 404);
         }
-        
+
         $createKeranjangItemRequest = new CreateKeranjangItemsRequest(
             $request->input('quantity'),
             $user->id,
@@ -51,9 +51,10 @@ class KeranjangItemController
 
         $products = [];
         foreach ($keranjangItems as $keranjangItem) {
-            $products[] = $keranjangItem->product;
+            $product = $keranjangItem->product;
+            $product->keranjang_quantity = $keranjangItem->quantity;
+            $products[] = $product;
         }
-        
         return view('cart', ['products' => $products]);
-    }   
+    }
 }

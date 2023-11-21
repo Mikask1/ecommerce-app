@@ -25,6 +25,7 @@ class ProductFactory extends Factory
             'deskripsi' => fake()->realText(),
             'rating' => fake()->randomFloat(2, 0, 5),
             'harga' => fake()->numberBetween(0, 100000000),
+            'stok' => fake()->numberBetween(0, 100),
             'kondisi' => fake()->randomElement(['Baru', 'Bekas']),
             'kategori' => fake()->randomElement(Categories::all())['nama_kategori'],
         ];

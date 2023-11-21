@@ -19,16 +19,16 @@
         <a class="nav-link" href="{{ route('products') }}">Home <span class="sr-only">(current)</span></a>
       </li> -->
       <li class="nav-item">
-        <a class="nav-link" href="#">Kategori</a>
+        <a class="nav-link" href="/products">Kategori</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Terbaru</a>
+        <a class="nav-link" href="/products">Terbaru</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">Promo</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Keranjang
+        <a class="nav-link" href="/cart">Keranjang
         <!-- <span class="material-symbols-outlined">
             shopping_cart
         </span> -->

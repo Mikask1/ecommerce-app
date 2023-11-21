@@ -20,7 +20,7 @@
                     <div class="product-actions">
                         <button class="btn" type="button" onclick="decreaseQuantity()">-</button>
                         <input type="text" class="form-control quantityinput" id="quantityInput"
-                            aria-label="Quantity" value="1"
+                            aria-label="Quantity" value="{{$product->keranjang_quantity}}"
                             oninput="this.value=this.value.replace(/[^0-9]/g,''); validateQuantity(this)">
                         <button class="btn" type="button" onclick="increaseQuantity()">+</button>
                     </div>
