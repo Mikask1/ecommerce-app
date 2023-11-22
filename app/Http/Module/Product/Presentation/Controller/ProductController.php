@@ -26,7 +26,7 @@ class ProductController
             'deskripsi' => 'required|string',
             'rating' => 'required|numeric|between:1,5',
             'harga' => 'required|numeric|min:0',
-            'kondisi' => 'required|string|in:baru,bekas',
+            'kondisi' => 'required|string|in:Baru,Bekas',
             'kategori' => 'required|string',
         ]);
 
@@ -49,6 +49,48 @@ class ProductController
         $this->create_product_service->execute($createProductRequest);
 
         return response()->json(['message' => 'Product created successfully']);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'nama_produk' => 'string',
+            'deskripsi' => 'string',
+            'harga' => 'numeric',
+            'kondisi' => 'string|in:Bekas,Baru',
+            'kategori' => 'exists:categories,nama_kategori',
+        ]);
+
+        $requestData = $request->only([
+            'nama_produk',
+            'deskripsi',
+            'harga',
+            'kondisi',
+            'kategori'
+        ]);
+
+        $requestData = array_filter($requestData, function ($value) {
+            return $value !== null;
+        });
+
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
+        $product->update($requestData);
+
+        return response()->json(['message' => 'Product updated successfully', 'data' => $product]);
+    }
+
+    public function destroy($id)
+    {
+        $product = Product::find($id);
+
+        $product->delete();
+
+        return response()->json(['message' => 'Product deleted successfully']);
     }
 
 

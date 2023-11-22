@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->string('kategori');
             $table->foreign('kategori')->references('nama_kategori')->on('categories');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

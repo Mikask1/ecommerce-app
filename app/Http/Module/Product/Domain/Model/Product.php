@@ -4,11 +4,12 @@ namespace App\Http\Module\Product\Domain\Model;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
 class Product extends Model
 {
-    use Notifiable, HasFactory;
+    use Notifiable, HasFactory, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
