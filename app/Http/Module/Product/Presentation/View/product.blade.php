@@ -4,19 +4,21 @@
         <div class="container mx-auto" style="min-width: 900px; max-width: 900px; margin-top:6rem;">
             <div class="row">
                 <div class="kiri col-sm-6 d-flex flex-column align-items-center">
-                    <img width="240" height="240" class="productImg" src="{{ asset('storage/' . $product->gambar) }}"
-                        alt="{{ $product->nama_produk }}">
-
-                    <button class="tambahKeranjang">Tambah ke keranjang</button>
-                </div>
+                    <img width="240" height="240" class="productImg" src="{{ asset('storage/' . $product->gambar) }}" alt="{{ $product->nama_produk }}">
+                    <form method="POST" action="{{ route('product/add_to_cart') }}" enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="product_id" value="{{ $product->id }}">
+                        <input type="hidden" name="quantity" value=1>
+                        <button type="submit" class="tambahKeranjang">Tambah ke keranjang</button>
+                    </form>
+                    </div>
                 <div class="kanan col-sm-6 d-flex flex-column align-items-center">
                     <div class="card">
                         <div class="card-body">
                             <h4 class="deskripsi-title">{{ $product->nama_produk }}</h4>
                             <div>
                                 <div class="tags">
-                                    <span class="material-symbols-outlined"
-                                        style="font-size: 15px; font-variation-settings: 'FILL' 1;">
+                                    <span class="material-symbols-outlined" style="font-size: 15px; font-variation-settings: 'FILL' 1;">
                                         grade
                                     </span>
                                     {{ $product->rating }}
@@ -33,17 +35,16 @@
                 </div>
                 <h4 class="deskripsi-text" style="padding-bottom:10px;">Reviews</h4>
                 @foreach ($product->reviews as $review)
-                    <div>
-                            <div class="tags" style="display: inline">
-                                <span class="material-symbols-outlined"
-                                    style="font-size: 15px; font-variation-settings: 'FILL' 1;">
-                                    grade
-                                </span>
-                                {{ $review->rating }}
-                            </div>
-                            <h6 class="deskripsi-text" style="display: inline">Anonymous</h6>
-                        <p style="color:black;padding:10px;">{{ $review->review }}</p>
+                <div>
+                    <div class="tags" style="display: inline">
+                        <span class="material-symbols-outlined" style="font-size: 15px; font-variation-settings: 'FILL' 1;">
+                            grade
+                        </span>
+                        {{ $review->rating }}
                     </div>
+                    <h6 class="deskripsi-text" style="display: inline">Anonymous</h6>
+                    <p style="color:black;padding:10px;">{{ $review->review }}</p>
+                </div>
                 @endforeach
             </div>
         </div>

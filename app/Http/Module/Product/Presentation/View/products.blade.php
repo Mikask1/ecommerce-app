@@ -64,7 +64,7 @@
         overflow-x: auto;
     }
 
-    .category {}
+    /* .category {} */
 
     .title {
         font-size: 28px;
