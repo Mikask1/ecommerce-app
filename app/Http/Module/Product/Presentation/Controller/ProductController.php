@@ -138,4 +138,11 @@ class ProductController
 
         return view('product', compact('product'));
     }
+
+    public function getAdminProducts()
+    {
+        $products = $products = Product::all();
+
+        return view('admin.admin-product', compact('products'));
+    }
 }

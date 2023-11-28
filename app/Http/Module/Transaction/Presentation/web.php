@@ -7,6 +7,11 @@ Route::post('create_transaction', [TransactionController::class, 'createTransact
 
 Route::get('transactions', [TransactionController::class, 'listTransactions'])->middleware(['auth', 'verified'])->name('transactions');
 
+Route::get('transactions/{id}', [TransactionController::class, 'transactionDetail']);
+
 Route::patch('update_review', [TransactionController::class, 'updateReview'])->middleware(['auth', 'verified']);
 
-Route::patch('/transactions/{transactionId}/update-status', [TransactionController::class, 'updateStatus'])->middleware(['auth', 'verified']);
+Route::patch('transactions/{transactionId}/update-status', [TransactionController::class, 'updateStatus'])->middleware(['auth', 'verified']);
+
+Route::get('admin/transactions', [TransactionController::class, 'listAdminTransactions'])->name('transactions');
+

@@ -12,7 +12,7 @@ Route::post('create_product', [ProductController::class, 'createProduct'])->midd
 
 Route::get('products', [ProductController::class, 'listProducts'])->middleware(['auth', 'verified'])->name('products');
 
-Route::get('product/{id}', [ProductController::class, 'getProduct'])->middleware(['auth', 'verified']);
+Route::get('/product/{id}', [ProductController::class, 'getProduct'])->middleware(['auth', 'verified']);
 
 Route::put('/products/{id}', [ProductController::class, 'update'])->middleware(['auth', 'verified']);
 
@@ -20,4 +20,6 @@ Route::delete('/products/{id}', [ProductController::class, 'destroy'])->middlewa
 
 Route::post('product/add_to_cart', [KeranjangItemController::class, 'addToCart'])->middleware(['auth', 'verified'])->name('product/add_to_cart');
 
-Route::get('cart', [KeranjangItemController::class, 'listKeranjangItem'])->name('cart');
+Route::get('cart', [KeranjangItemController::class, 'listKeranjangItem'])->middleware(['auth', 'verified'])->name('cart');
+
+Route::get('admin/product', [ProductController::class, 'getAdminProducts'])->middleware(['auth', 'verified']);

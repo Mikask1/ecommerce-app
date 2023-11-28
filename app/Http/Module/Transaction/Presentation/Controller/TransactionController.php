@@ -93,6 +93,24 @@ class TransactionController
         return response()->json(['message' => 'Review updated successfully']);
     }
 
+    public function listAdminTransactions()
+    {
+        $transactions = Transaction::with('details.product')->get();
+
+        return view('admin.admin-transactions', ['transactions' => $transactions]);
+    }
+
+    public function transactionDetail($id)
+    {
+        $transaction = Transaction::with('details.product')->find($id);
+        
+        if (!$transaction) {
+            return response()->json(['message' => 'No transaction with that ID found'], 404);
+        }
+
+        return view('transaction-detail', ['transaction' => $transaction]);
+    }
+
     public function updateStatus(Request $request, $transactionId)
     {
         $transaction = Transaction::find($transactionId);
@@ -100,7 +118,7 @@ class TransactionController
         if (!$transaction) {
             return response()->json(['message' => 'No transaction with that ID found'], 404);
         }
-        
+
         return $this->update_transaction_status_service->updateStatus($transaction, $request);
     }
 
