@@ -2,6 +2,7 @@
 
 use App\Http\Module\Product\Presentation\Controller\KeranjangItemController;
 use App\Http\Module\Product\Presentation\Controller\ProductController;
+use App\Http\Module\Product\Presentation\Controller\CheckoutController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('ping', function(){
@@ -16,7 +17,7 @@ Route::get('/product/{id}', [ProductController::class, 'getProduct'])->middlewar
 
 Route::put('/products/{id}', [ProductController::class, 'update'])->middleware(['auth', 'verified']);
 
-Route::delete('/products/{id}', [ProductController::class, 'destroy'])->middleware(['auth', 'verified']);
+Route::delete('/product/{id}', [ProductController::class, 'destroy'])->middleware(['auth', 'verified']);
 
 Route::post('product/add_to_cart', [KeranjangItemController::class, 'addToCart'])->middleware(['auth', 'verified'])->name('product/add_to_cart');
 
