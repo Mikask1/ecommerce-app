@@ -23,4 +23,6 @@ Route::post('product/add_to_cart', [KeranjangItemController::class, 'addToCart']
 
 Route::get('cart', [KeranjangItemController::class, 'listKeranjangItem'])->middleware(['auth', 'verified'])->name('cart');
 
+Route::post('/checkout', [CheckoutController::class, 'index'])->middleware(['auth', 'verified'])->name('checkout');
+
 Route::get('admin/product', [ProductController::class, 'getAdminProducts'])->middleware(['auth', 'verified']);

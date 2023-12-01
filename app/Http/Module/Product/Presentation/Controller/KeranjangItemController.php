@@ -28,7 +28,7 @@ class KeranjangItemController
         $product_id = $request->input('product_id');
 
         $product = Product::find($product_id);
-        
+
         if (!$product) {
             return response()->json(['error' => 'Product not found'], 404);
         }
@@ -50,11 +50,22 @@ class KeranjangItemController
         $keranjangItems = KeranjangItem::where('user_id', $user->id)->get();
 
         $products = [];
+        $totalQuantity = 0;
+        $totalPrice = 0;
+
         foreach ($keranjangItems as $keranjangItem) {
             $product = $keranjangItem->product;
             $product->keranjang_quantity = $keranjangItem->quantity;
             $products[] = $product;
+
+            $totalQuantity += $keranjangItem->quantity;
+            $totalPrice += $product->harga * $keranjangItem->quantity;
         }
-        return view('cart', ['products' => $products]);
+
+        return view('cart', [
+            'products' => $products,
+            'totalQuantity' => $totalQuantity,
+            'totalPrice' => $totalPrice,
+        ]);
     }
 }
