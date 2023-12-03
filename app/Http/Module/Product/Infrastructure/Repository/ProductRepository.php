@@ -4,6 +4,7 @@ namespace App\Http\Module\Product\Infrastructure\Repository;
 
 use App\Http\Module\Product\Domain\Model\Product;
 use App\Http\Module\Product\Domain\Services\Repository\ProductRepositoryInterface;
+use Illuminate\Support\Facades\Log;
 
 class ProductRepository implements ProductRepositoryInterface
 {
@@ -16,7 +17,8 @@ class ProductRepository implements ProductRepositoryInterface
             'rating' => $product->rating,
             'harga' => $product->harga,
             'kondisi' => $product->kondisi,
-            'kategori' => $product->kategori
+            'kategori' => $product->kategori,
+            'stok' => $product->stok
         ]);
     }
 }

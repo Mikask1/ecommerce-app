@@ -4,7 +4,7 @@ namespace App\Http\Module\Product\Application\Services\CreateProduct;
 
 use App\Http\Module\Product\Domain\Model\Product;
 use App\Http\Module\Product\Infrastructure\Repository\ProductRepository;
-
+use Illuminate\Support\Facades\Log;
 class CreateProductService
 {
 
@@ -20,10 +20,10 @@ class CreateProductService
             'deskripsi' => $request->deskripsi,
             'rating' => $request->rating,
             'harga' => $request->harga,
+            'stok' => $request->stok,
             'kondisi' => $request->kondisi,
+            'kategori' => $request->kategori
         ]);
-        
-        $product->category()->associate($request->kategori);
 
         return $this->product_repository->save($product);
     }

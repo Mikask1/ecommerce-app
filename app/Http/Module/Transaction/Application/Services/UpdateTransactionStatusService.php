@@ -18,7 +18,7 @@ class UpdateTransactionStatusService
             case 'ARRIVED':
                 return $this->updateArrived($transaction, $request->input('date', null));
             default:
-                return response()->json(['message' => 'Invalid status provided.'], 422);
+                return redirect()->back()->with('error', 'Invalid status provided');
         }
     }
     private function updateDelivered(Transaction $transaction, $date = null)
@@ -27,7 +27,7 @@ class UpdateTransactionStatusService
         $transaction->tanggal_pengiriman = $date ?? Carbon::now();
         $transaction->save();
 
-        return response()->json(['message' => 'Status updated to DELIVERED.']);
+        return redirect()->back()->with('status', 'Status updated to DELIVERED');
     }
 
     private function updateArrived(Transaction $transaction, $date = null)
@@ -36,7 +36,7 @@ class UpdateTransactionStatusService
         $transaction->tanggal_sampai = $date ?? Carbon::now();
         $transaction->save();
 
-        return response()->json(['message' => 'Status updated to ARRIVED.']);
+        return redirect()->back()->with('status', 'Status updated to ARRIVED');
     }
 
     private function updatePacking(Transaction $transaction, $date = null)
@@ -45,6 +45,6 @@ class UpdateTransactionStatusService
         $transaction->tanggal_pengemasan = $date ?? Carbon::now();
         $transaction->save();
 
-        return response()->json(['message' => 'Status updated to PACKING.']);
+        return redirect()->back()->with('status', 'Status updated to PACKING');
     }
 }

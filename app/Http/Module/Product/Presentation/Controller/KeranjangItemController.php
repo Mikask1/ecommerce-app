@@ -30,7 +30,7 @@ class KeranjangItemController
         $product = Product::find($product_id);
 
         if (!$product) {
-            return response()->json(['error' => 'Product not found'], 404);
+            return redirect()->back()->with('error', 'Product not found');
         }
 
         $createKeranjangItemRequest = new CreateKeranjangItemsRequest(
@@ -40,7 +40,7 @@ class KeranjangItemController
         );
 
         $this->create_keranjang_item_service->execute($createKeranjangItemRequest);
-        return response()->json(['message' => 'Product added to cart successfully']);
+        return redirect()->back()->with('error', 'Product added to cart successfully');
     }
 
     public function listKeranjangItem()

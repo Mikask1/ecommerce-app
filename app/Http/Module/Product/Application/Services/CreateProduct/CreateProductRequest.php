@@ -10,6 +10,7 @@ class CreateProductRequest
         public string $deskripsi,
         public string $rating,
         public float $harga,
+        public int $stok,
         public string $kondisi,
         public string $kategori
     ) {}

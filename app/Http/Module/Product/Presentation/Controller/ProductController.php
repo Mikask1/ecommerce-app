@@ -9,6 +9,7 @@ use App\Http\Module\Product\Domain\Model\Product;
 use App\Http\Module\Transaction\Domain\Model\TransactionDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
 class ProductController
@@ -22,77 +23,92 @@ class ProductController
     {
         $request->validate([
             'nama_produk' => 'required|string|max:255',
-            'gambar' => 'required',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'deskripsi' => 'required|string',
-            'rating' => 'required|numeric|between:1,5',
             'harga' => 'required|numeric|min:0',
             'kondisi' => 'required|string|in:Baru,Bekas',
             'kategori' => 'required|string',
+            'stok' => 'required|numeric|min:0'
         ]);
 
-        $category = Categories::find($request->input('kategori'));
+        $category = Categories::where('nama_kategori', $request->input('kategori'))->first();
 
-        if ($category) {
-            return response()->json(['error' => 'Category not found'], 404);
+        if (!$category) {
+            return redirect()->back()->with('error', 'Category not found');
         }
+
+        $imagePath = $request->file('gambar')->store('images', 'public');
 
         $createProductRequest = new CreateProductRequest(
             $request->input('nama_produk'),
-            $request->input('gambar'),
+            $imagePath, // Save the image path
             $request->input('deskripsi'),
-            $request->input('rating'),
+            0,
             $request->input('harga'),
+            $request->input('stok'),
             $request->input('kondisi'),
             $request->input('kategori')
         );
 
         $this->create_product_service->execute($createProductRequest);
 
-        return response()->json(['message' => 'Product created successfully']);
+        return redirect()->back()->with('status', 'Product created successfully');
     }
+
+
 
     public function update(Request $request, $id)
     {
         $request->validate([
             'nama_produk' => 'string',
             'deskripsi' => 'string',
+            'gambar' => 'image|mimes:jpeg,png,jpg|max:2048',
             'harga' => 'numeric',
             'kondisi' => 'string|in:Bekas,Baru',
-            'kategori' => 'exists:categories,nama_kategori',
+            'stok' => 'numeric',
+            'kategori' => 'string',
         ]);
-
-        $requestData = $request->only([
-            'nama_produk',
-            'deskripsi',
-            'harga',
-            'kondisi',
-            'kategori'
-        ]);
-
-        $requestData = array_filter($requestData, function ($value) {
-            return $value !== null;
-        });
 
         $product = Product::find($id);
 
         if (!$product) {
-            return response()->json(['message' => 'Product not found'], 404);
+            return redirect()->back()->with('error', 'Product not found');
         }
 
-        $product->update($requestData);
+        if ($request->hasFile('gambar')) {
+            if ($product->gambar) {
+                Storage::disk('public')->delete($product->gambar);
+            }
 
-        return response()->json(['message' => 'Product updated successfully', 'data' => $product]);
+            $gambarPath = $request->file('gambar')->store('images', 'public');
+            $product->gambar = $gambarPath;
+        }
+
+        // Update other fields
+        $product->nama_produk = $request->input('nama_produk') ?? $product->nama_produk;
+        $product->deskripsi = $request->input('deskripsi') ?? $product->deskripsi;
+        $product->harga = $request->input('harga') ?? $product->harga;
+        $product->kondisi = $request->input('kondisi') ?? $product->kondisi;
+        $product->kategori = $request->input('kategori') ?? $product->kategori;
+        $product->stok = $request->input('stok') ?? $product->stok;
+
+        $product->save();
+
+        return redirect()->back()->with('status', 'Product updated successfully');
     }
+
 
     public function destroy($id)
     {
-        $product = Product::find($id);
+        try {
+            $product = Product::find($id);
+            $product->delete();
 
-        $product->delete();
-
-        return response()->json(['message' => 'Product deleted successfully']);
+            return redirect()->back()->with('status', 'Product deleted successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('status', 'Error deleting product: ' . $e->getMessage());
+        }
     }
-
 
     public function listProducts(Request $request)
     {
@@ -144,5 +160,23 @@ class ProductController
         $products = $products = Product::all();
 
         return view('admin.admin-product', compact('products'));
+    }
+
+    public function getAdminCreateProduct()
+    {
+        $categories = Categories::all();
+
+        $mode = 'create';
+
+        return view('admin.create-edit-product', compact('categories', 'mode'));
+    }
+
+    public function getAdminEditProduct($id)
+    {
+        $product = Product::find($id);
+        $categories = Categories::all();
+
+        $mode = 'edit';
+        return view('admin.create-edit-product', compact('product', 'categories', 'mode'));
     }
 }

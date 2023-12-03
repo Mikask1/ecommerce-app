@@ -22,7 +22,9 @@ class Product extends Model
         'deskripsi',
         'rating',
         'harga',
-        'kondisi'
+        'kondisi',
+        'kategori',
+        'stok'
     ];
 
     /**

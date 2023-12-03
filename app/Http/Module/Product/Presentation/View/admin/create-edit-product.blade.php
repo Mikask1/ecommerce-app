@@ -1,46 +1,76 @@
 <x-app-layout>
 
-    <body style="margin-top:30px;">
+    <body style="margin-top:50px;">
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
 
         <div class="box">
             <div class="container">
-
-                <!-- endpoint edit produk belum ada -->
-                <form action="/createProduct" method="POST" enctype="multipart/form-data">
+                <h1 style="margin-bottom: 16px">
+                    @if ($mode == 'create')
+                        Create Product
+                    @elseif($mode == 'edit')
+                        Edit Product
+                    @endif
+                </h1>
+                <form
+                    action="{{ $mode == 'create' ? route('product.create') : route('product.update', ['id' => $product->id]) }}"
+                    method="POST" enctype="multipart/form-data">
                     @csrf
-                    @method('put')
+
+                    @if ($mode == 'edit')
+                        @method('PUT')
+                    @endif
 
                     <div class="form-group">
                         <label>Nama produk</label>
-                        <input class="form-control" name="nama_produk" placeholder="{{products->nama_produk}}">
+                        <input class="form-control" name="nama_produk" id="nama_produk"
+                            placeholder="Enter your product name"
+                            value="{{ $mode == 'edit' ? $product->nama_produk : '' }}">
                     </div>
 
                     <div class="form-group">
                         <label>Gambar produk</label>
-                        <input class="form-control" type="file" accept=".jpg, .jpeg, .png" name="gambar">
+                        <input class="form-control" type="file" accept=".jpg, .jpeg, .png" name="gambar"
+                            id="gambar">
+                        @if ($mode == 'edit' && $product->gambar)
+                            <img src="{{ asset('storage/' . $product->gambar) }}" alt="Product Image"
+                                class="full-width-image">
+                        @endif
+                        <p>Max: 2MB</p>
                     </div>
 
                     <div class="form-group">
                         <label>Deskripsi produk</label>
-                        <input type="text" class="form-control" name="deskripsi" placeholder="{{products->deskripsi}}">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Rating produk</label>
-                        <input class="form-control" type="number" pattern="\d+(\.\d{1,2})?" name="rating" placeholder="{{products->rating}}">
+                        <textarea type="text" class="form-control" name="deskripsi" id="deskripsi"
+                            placeholder="Enter your product description">{{ $mode == 'edit' ? $product->deskripsi : '' }}</textarea>
                     </div>
 
                     <div class="form-group">
                         <label>Harga produk</label>
-                        <input class="form-control" type="number" name="harga" placeholder="{{products->harga}}">
+                        <input class="form-control" type="number" name="harga" id="harga" placeholder="0"
+                            value="{{ $mode == 'edit' ? $product->harga : '' }}">
                     </div>
 
                     <div class="form-group">
                         <label for="kondisi">Kondisi produk</label>
                         <div class="select-wrapper">
                             <select id="kondisi" name="kondisi" class="form-control">
-                                <option selected value="0">Baru</option>
-                                <option value="1">Bekas</option>
+                                <option value="Baru"
+                                    {{ $mode == 'edit' && $product->kondisi == 'Baru' ? 'selected' : '' }}>Baru
+                                </option>
+                                <option value="Bekas"
+                                    {{ $mode == 'edit' && $product->kondisi == 'Bekas' ? 'selected' : '' }}>Bekas
+                                </option>
                             </select>
                             <div class="select-icon"></div>
                         </div>
@@ -48,23 +78,32 @@
 
                     <div class="form-group">
                         <label>Stok produk</label>
-                        <input class="form-control" type="number" name="stok" placeholder="{{products->stok}}">
+                        <input class="form-control" type="number" name="stok" placeholder="0"
+                            value="{{ $mode == 'edit' ? $product->stok : '' }}">
                     </div>
 
                     <div class="form-group">
                         <label for="kategori">Kategori produk</label>
                         <div class="select-wrapper">
                             <select id="kategori" name="kategori" class="form-control">
-                                <option selected value="0">-</option>
+                                @foreach ($categories as $category)
+                                    <option value="{{ $category->nama_kategori }}"
+                                        {{ $mode == 'edit' && $category->nama_kategori == $product->kategori ? 'selected' : '' }}>
+                                        {{ $category->nama_kategori }}
+                                    </option>
+                                @endforeach
                             </select>
                             <div class="select-icon"></div>
                         </div>
                     </div>
-            </div>
-        </div>
 
-        <div class="submit">
-            <button type="submit" class="btn btn-dark">Submit</button>
+                    <div class="submit">
+                        <button type="submit"
+                            class="btn btn-primary">{{ $mode == 'edit' ? 'Edit' : 'Submit' }}</button>
+                    </div>
+                </form>
+            </div>
+
         </div>
 
         <style>
@@ -83,6 +122,13 @@
                 padding: 20px;
                 margin: 20px auto;
                 box-shadow: 0 0 10px rgba(33, 31, 43, 0.2);
+            }
+
+            .full-width-image {
+                width: 100%;
+                height: auto;
+                object-fit: contain;
+                margin: 8px 0px;
             }
 
             .top-header {
@@ -113,7 +159,7 @@
 
             .form-control {
                 width: 100%;
-                padding: 15px 20px;
+                padding: 8px 16px;
                 border: 1px solid #ccc;
                 border-radius: 5px;
             }
@@ -148,12 +194,14 @@
             }
 
             .submit {
-                text-align: center;
+                text-align: right;
                 padding-bottom: 30px;
             }
         </style>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" `integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+            `integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous">
+        </script>
 
     </body>
 
