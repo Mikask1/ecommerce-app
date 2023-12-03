@@ -103,7 +103,7 @@ class TransactionController
     public function transactionDetail($id)
     {
         $transaction = Transaction::with('details.product')->find($id);
-        
+
         if (!$transaction) {
             return redirect()->back()->with('error', 'No transaction with that ID found');
         }
@@ -113,12 +113,31 @@ class TransactionController
 
     public function updateStatus(Request $request, $transactionId)
     {
+        Log::info($transactionId);
         $transaction = Transaction::find($transactionId);
 
         if (!$transaction) {
-            return redirect()->back()->with('error', 'No transaction with that ID found');
+            return redirect()->route('admin.transactions')->with('error', 'No transaction with that ID found');
         }
 
         return $this->update_transaction_status_service->updateStatus($transaction, $request);
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $transaction = Transaction::find($id);
+            $transaction->delete();
+
+            return redirect()->back()->with('status', 'Transaction deleted successfully');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Error deleting transaction: ' . $e->getMessage());
+        }
+    }
+
+    public function getAdminUpdateTransactionStatus($transactionId)
+    {
+        $transaction = Transaction::find($transactionId);
+        return view('admin.update-status', compact('transaction'));
     }
 }

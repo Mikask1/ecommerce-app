@@ -5,20 +5,23 @@ namespace App\Http\Module\Transaction\Application\Services;
 use App\Http\Module\Transaction\Domain\Model\Transaction;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class UpdateTransactionStatusService
 {
     public function updateStatus(Transaction $transaction, Request $request)
     {
-        switch ($request->input('status')) {
-            case 'PACKING':
-                return $this->updatePacking($transaction, $request->input('date', null));
-            case 'DELIVERED':
-                return $this->updateDelivered($transaction, $request->input('date', null));
-            case 'ARRIVED':
-                return $this->updateArrived($transaction, $request->input('date', null));
-            default:
-                return redirect()->back()->with('error', 'Invalid status provided');
+        $status = $request->input('status');
+        $date = $request->input('date', null);
+
+        if ($status === 'PACKING') {
+            return $this->updatePacking($transaction, $date);
+        } elseif ($status === 'DELIVERED') {
+            return $this->updateDelivered($transaction, $date);
+        } elseif ($status === 'ARRIVED') {
+            return $this->updateArrived($transaction, $date);
+        } else {
+            return redirect()->route('admin.transactions')->with('error', 'Invalid status provided');
         }
     }
     private function updateDelivered(Transaction $transaction, $date = null)
@@ -27,7 +30,7 @@ class UpdateTransactionStatusService
         $transaction->tanggal_pengiriman = $date ?? Carbon::now();
         $transaction->save();
 
-        return redirect()->back()->with('status', 'Status updated to DELIVERED');
+        return redirect()->route('admin.transactions')->with('status', 'Status updated to DELIVERED');
     }
 
     private function updateArrived(Transaction $transaction, $date = null)
@@ -36,7 +39,7 @@ class UpdateTransactionStatusService
         $transaction->tanggal_sampai = $date ?? Carbon::now();
         $transaction->save();
 
-        return redirect()->back()->with('status', 'Status updated to ARRIVED');
+        return redirect()->route('admin.transactions')->with('status', 'Status updated to ARRIVED');
     }
 
     private function updatePacking(Transaction $transaction, $date = null)
@@ -45,6 +48,6 @@ class UpdateTransactionStatusService
         $transaction->tanggal_pengemasan = $date ?? Carbon::now();
         $transaction->save();
 
-        return redirect()->back()->with('status', 'Status updated to PACKING');
+        return redirect()->route('admin.transactions')->with('status', 'Status updated to PACKING');
     }
 }

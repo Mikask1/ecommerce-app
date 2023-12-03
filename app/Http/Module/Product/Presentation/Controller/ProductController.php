@@ -106,7 +106,7 @@ class ProductController
 
             return redirect()->back()->with('status', 'Product deleted successfully');
         } catch (\Exception $e) {
-            return redirect()->back()->with('status', 'Error deleting product: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error deleting product: ' . $e->getMessage());
         }
     }
 

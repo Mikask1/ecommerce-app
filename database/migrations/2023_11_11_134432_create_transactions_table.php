@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->dateTime('tanggal_pengiriman')->nullable();
             $table->dateTime('tanggal_sampai')->nullable();
             $table->foreignId('user_id')->references('id')->on('users');
+            $table->softDeletes();
         });
     }
 
