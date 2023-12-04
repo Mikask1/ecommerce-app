@@ -25,12 +25,51 @@
                         </div>
                         <div class="row product-info d-flex align-items-center mr-2">
                             <h4 class="nama">{{ $detail->product->nama_produk }}</h4>
-                            <p>Rp{{ number_format($detail->product->harga, 2) }}</p>
-                            <p>x{{ $detail->kuantitas }}</p>
+                            <p>
+                                <span class="harga">Rp{{ number_format($detail->product->harga, 2) }}</span>
+                                <span style="color:white">.</span>
+                                <span class="kuantitas">x{{ $detail->kuantitas }}</span>
+                            </p>
                         </div>
                         <div class="product-actions">
-                            <button type="button" class="reviewButton">Buat ulasan</button>
+                            <button type="button" class="reviewButton" data-bs-toggle="modal" data-bs-target="#exampleModal{{ $detail->id }}">Buat ulasan</button>
                         </div>
+
+                        <form action="{{ url('update_review') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            @method('PATCH')<div class="modal fade" id="exampleModal{{ $detail->id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+
+
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Buat ulasan</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="form-group">
+                                                <input type="hidden" name="transaction_detail_id" value="{{ $detail->id }}">
+
+                                                <div class="p-2">
+                                                    <label class="pb-2" for="ratingInput">Rating:</label>
+                                                    <input class="form-control pt-2" type="float" name="rating" id="ratingInput" placeholder="0">
+                                                </div>
+
+                                                <div class="p-2">
+                                                    <label class="pb-2" for="reviewInput">Review:</label>
+                                                    <input class="form-control pt-2" type="text" name="review" id="reviewInput" rows="3" placeholder="...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="reviewButton">Save changes</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </form>
+
                     </div>
                     @endforeach
 
@@ -125,10 +164,16 @@
         /* margin-right: 10px; */
     }
 
-    .product-info p {
+    .product-info .harga {
         color: #3c0f83;
         font-size: 18px;
         font-weight: 900;
+    }
+
+    .product-actions .kuantitas {
+        color: #333;
+        font-size: 18px;
+        font-weight: 500;
     }
 
     .product-actions {
@@ -170,5 +215,7 @@
         font-weight: 400;
     }
 
-    
+    .modal-header {
+        background-color: #c8b8df;
+    }
 </style>
