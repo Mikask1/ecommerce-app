@@ -9,7 +9,7 @@
                     Checkout
                 </h2>
 
-                <form action="{{ route('transaction.create') }}" method="POST" enctype="multipart/form-data">
+                <form action="/create_transaction" method="POST" enctype="multipart/form-data">
                     @csrf
                     @foreach ($checkoutData as $index => $data)
                         <div class="row receipt justify-content-between align-items-center">
