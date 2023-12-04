@@ -2,6 +2,7 @@
 
 namespace App\Http\Module\Transaction\Presentation\Controller;
 
+use App\Http\Module\Product\Domain\Model\KeranjangItem;
 use App\Http\Module\Product\Domain\Model\Product;
 use App\Http\Module\Transaction\Domain\Model\Transaction;
 use App\Http\Module\Transaction\Domain\Model\TransactionDetail;
@@ -19,8 +20,10 @@ class TransactionController
 
     public function createTransaction(Request $request)
     {
+        $user_id = auth()->user()->id;
+
         $request->validate([
-            'metode_bayar' => 'required|string',
+            'metode_bayar' => 'required|string|in:BANK,QRIS,COD,PayLater',
             'product' => 'required|array',
             'product.*.product_id' => 'required|integer|exists:products,id',
             'product.*.quantity' => 'required|integer|min:1',
@@ -41,7 +44,8 @@ class TransactionController
         $data = [
             'total_harga' => $totalPrice,
             'metode_bayar' => $request->input('metode_bayar'),
-            'user_id' => auth()->user()->id,
+            'user_id' => $user_id,
+            'tanggal_pengemasan' => Carbon::now()
         ];
 
         $transaction = Transaction::create($data);
@@ -57,9 +61,13 @@ class TransactionController
             ];
 
             TransactionDetail::create($transactionDetailData);
+
+            KeranjangItem::where('user_id', $user_id)
+                ->where('product_id', $productId)
+                ->delete();
         }
 
-        return redirect()->back()->with('status', 'Product bought successfully');
+        return redirect()->route('transactions')->with('status', 'Products bought successfully');
     }
 
     public function listTransactions()
@@ -68,6 +76,7 @@ class TransactionController
 
         $transactions = Transaction::with('details.product')
             ->where('user_id', $user->id)
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return view('transactions', ['transactions' => $transactions]);

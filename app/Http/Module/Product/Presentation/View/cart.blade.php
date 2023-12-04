@@ -1,54 +1,78 @@
 <x-app-layout>
 
-    <body style="padding-top:30px">
-        <form action="{{ route('checkout') }}" method="post">
+    <body style="padding-top:50px">
+        <form action="{{ route('checkout') }}" method="post" id="checkoutForm">
             @csrf
-            <div class="container p-5 my-3">
-
+            <div class="container p-5 mb-3">
                 @foreach ($products as $product)
-                <div class="product-card d-flex align-items-center">
-                    <div class="check">
-                        <input class="formcheck" type="checkbox" name="selectedProducts[]" value="{{ $product->id }}">
+                    <div class="product-card d-flex align-items-center">
+                        <div class="check">
+                            <input class="formcheck" type="checkbox" name="selectedProducts[]" value="{{ $product->id }}"
+                                onchange="calculateTotals()">
+                        </div>
+                        <div class="product-img">
+                            <img src="{{ asset('storage/' . $product->gambar) }}" width="60" height="60"
+                                class="d-inline-block align-top" alt="{{ $product->name }}">
+                        </div>
+                        <div class="row product-info d-flex align-items-center mr-2">
+                            <h4 class="nama">{{ $product->nama_produk }}</h4>
+                            <p id="harga_{{ $product->id }}" data-harga="{{ $product->harga }}">
+                                Rp{{ number_format($product->harga, 2) }}</p>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn" type="button"
+                                onclick="decreaseQuantity({{ $product->id }})">-</button>
+                            <input type="text" class="form-control quantityinput"
+                                id="quantityInput_{{ $product->id }}" aria-label="Quantity"
+                                value="{{ $product->keranjang_quantity }}"
+                                oninput="this.value=this.value.replace(/[^0-9]/g,''); validateQuantity(this)">
+                            <button class="btn" type="button"
+                                onclick="increaseQuantity({{ $product->id }})">+</button>
+                        </div>
                     </div>
-                    <div class="product-img">
-                        <img src="{{ asset('storage/' . $product->gambar) }}" width="60" height="60" class="d-inline-block align-top" alt="{{ $product->name }}">
-                    </div>
-                    <div class="row product-info d-flex align-items-center mr-2">
-                        <h4 class="nama">{{ $product->nama_produk }}</h4>
-                        <p>Rp{{ number_format($product->harga, 2) }}</p>
-                    </div>
-                    <div class="product-actions">
-                        <button class="btn" type="button" onclick="decreaseQuantity()">-</button>
-                        <input type="text" class="form-control quantityinput" id="quantityInput" aria-label="Quantity" value="{{$product->keranjang_quantity}}" oninput="this.value=this.value.replace(/[^0-9]/g,''); validateQuantity(this)">
-                        <button class="btn" type="button" onclick="increaseQuantity()">+</button>
-                    </div>
-                </div>
                 @endforeach
             </div>
 
             <div class="fixed-bottom d-flex align-items-stretch bottom">
                 <div class="row bottomInfo px-5 py-3 d-flex align-items-center">
-                    <h5>Total produk: {{ $totalQuantity }}</h5>
-                    <h5>Total harga: Rp{{ number_format($totalPrice, 2) }}</h5>
+                    <h5>Total produk: <span id="totalProduk">0</span></h5>
+                    <h5>Total harga: <span id="totalHarga">0.00</span></h5>
                 </div>
-                <button type="submit" class="checkout d-flex align-items-center">Checkout</p>
+                <button type="submit" class="checkout d-flex align-items-center">Checkout</button>
             </div>
         </form>
 
         <script>
-            function increaseQuantity() {
-                var quantityInput = document.getElementById('quantityInput');
+            function increaseQuantity(productId) {
+                var quantityInput = document.getElementById('quantityInput_' + productId);
                 var currentQuantity = parseInt(quantityInput.value);
-                if (currentQuantity < 99) {
+                if (currentQuantity < 1000) {
                     quantityInput.value = currentQuantity + 1;
+                    fetch('/product/add_to_cart', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: 'product_id=' + encodeURIComponent(productId) + '&quantity=1'
+                    })
                 }
+
             }
 
-            function decreaseQuantity() {
-                var quantityInput = document.getElementById('quantityInput');
+            function decreaseQuantity(productId) {
+                var quantityInput = document.getElementById('quantityInput_' + productId);
                 var currentQuantity = parseInt(quantityInput.value);
                 if (currentQuantity > 1) {
                     quantityInput.value = currentQuantity - 1;
+                    fetch('/product/add_to_cart', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: 'product_id=' + encodeURIComponent(productId) + '&quantity=-1'
+                    })
                 }
             }
 
@@ -60,6 +84,41 @@
                 } else if (value > 99) {
                     input.value = 99;
                 }
+            }
+
+            const checkboxes = document.querySelectorAll('.formcheck');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', calculateTotals);
+            });
+
+            function calculateTotals() {
+                let totalProduk = 0;
+                let totalHarga = 0;
+
+                const checkboxes = document.querySelectorAll('.formcheck:checked');
+
+                checkboxes.forEach(function(checkbox) {
+                    const productIndex = checkbox.value;
+                    const quantityInput = document.getElementById('quantityInput_' + productIndex);
+                    const hargaElement = document.getElementById('harga_' + productIndex);
+
+                    const quantity = parseInt(quantityInput.value, 10);
+                    const harga = parseFloat(hargaElement.getAttribute('data-harga'));
+
+                    totalProduk += quantity;
+                    totalHarga += quantity * harga;
+                });
+
+                // Update the total produk and total harga in the HTML
+                document.getElementById('totalProduk').innerText = totalProduk;
+                document.getElementById('totalHarga').innerText = formatCurrency(totalHarga.toFixed(2));
+            }
+
+            function formatCurrency(amount) {
+                return new Intl.NumberFormat('id-ID', {
+                    style: 'currency',
+                    currency: 'IDR'
+                }).format(amount);
             }
         </script>
 

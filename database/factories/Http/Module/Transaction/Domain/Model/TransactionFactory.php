@@ -15,7 +15,7 @@ class TransactionFactory extends Factory
         return [
             'total_harga' => $this->faker->numberBetween(100, 10000),
             'metode_bayar' => $this->faker->randomElement(['QRIS', 'BANK', 'COD', 'PayLater']),
-            'status' => $this->faker->randomElement(['PACKING', 'DELIVERED', 'ARRIVED']),
+            'status' => $this->faker->randomElement(['PACKING', 'DELIVERING', 'ARRIVED']),
             'tanggal_pengemasan' => $this->faker->dateTimeBetween('now', '+1 week'),
             'tanggal_pengiriman' => $this->faker->dateTimeBetween('+1 week', '+2 weeks'),
             'tanggal_sampai' => $this->faker->dateTimeBetween('+2 weeks', '+3 weeks'),

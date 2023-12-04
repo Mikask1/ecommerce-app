@@ -10,8 +10,8 @@
                     <h5 for="status">Ganti status pesanan</h5>
                     <div class="select-wrapper">
                         <select id="status" name="status" class="form-control">
-                            <option value="DELIVERED" {{ $transaction->status == 'DELIVERED' ? 'selected' : '' }}>
-                                DELIVERED</option>
+                            <option value="DELIVERING" {{ $transaction->status == 'DELIVERING' ? 'selected' : '' }}>
+                                DELIVERING</option>
                             <option value="ARRIVED" {{ $transaction->status == 'ARRIVED' ? 'selected' : '' }}>ARRIVED
                             </option>
                             <option value="PACKING" {{ $transaction->status == 'PACKING' ? 'selected' : '' }}>PACKING

@@ -146,6 +146,7 @@ class ProductController
             return TransactionDetail::where('produk_id', $id)
                 ->whereNotNull('review')
                 ->where('review', '<>', '')
+                ->orderBy('created_at', 'desc')
                 ->select('review', 'rating')
                 ->get();
         });

@@ -12,14 +12,16 @@ class CheckoutController
     {
         $selectedProductIds = $request->input('selectedProducts', []);
         $selectedProducts = Product::whereIn('id', $selectedProductIds)->get();
-        $keranjangItems = KeranjangItem::whereIn('product_id', $selectedProductIds)->get();
-        
+        $keranjangItems = KeranjangItem::whereIn('product_id', $selectedProductIds)
+            ->where('user_id', auth()->user()->id)
+            ->get();
+
         $totalQuantity = $keranjangItems->sum('quantity');
         $totalPrice = $selectedProducts->sum(function ($product) use ($keranjangItems) {
             $keranjangItem = $keranjangItems->where('product_id', $product->id)->first();
             return $product->harga * ($keranjangItem ? $keranjangItem->quantity : 0);
         });
-        
+
         $checkoutData = $selectedProducts->map(function ($product) use ($keranjangItems) {
             $keranjangItem = $keranjangItems->where('product_id', $product->id)->first();
             return [

@@ -16,21 +16,21 @@ class UpdateTransactionStatusService
 
         if ($status === 'PACKING') {
             return $this->updatePacking($transaction, $date);
-        } elseif ($status === 'DELIVERED') {
-            return $this->updateDelivered($transaction, $date);
+        } elseif ($status === 'DELIVERING') {
+            return $this->updateDELIVERING($transaction, $date);
         } elseif ($status === 'ARRIVED') {
             return $this->updateArrived($transaction, $date);
         } else {
             return redirect()->route('admin.transactions')->with('error', 'Invalid status provided');
         }
     }
-    private function updateDelivered(Transaction $transaction, $date = null)
+    private function updateDELIVERING(Transaction $transaction, $date = null)
     {
-        $transaction->status = 'DELIVERED';
+        $transaction->status = 'DELIVERING';
         $transaction->tanggal_pengiriman = $date ?? Carbon::now();
         $transaction->save();
 
-        return redirect()->route('admin.transactions')->with('status', 'Status updated to DELIVERED');
+        return redirect()->route('admin.transactions')->with('status', 'Status updated to DELIVERING');
     }
 
     private function updateArrived(Transaction $transaction, $date = null)

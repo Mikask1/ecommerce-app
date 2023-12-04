@@ -19,11 +19,11 @@ Route::put('/products/{id}', [ProductController::class, 'update'])->middleware([
 
 Route::delete('/product/{id}', [ProductController::class, 'destroy'])->middleware(['auth', 'verified']);
 
-Route::post('product/add_to_cart', [KeranjangItemController::class, 'addToCart'])->middleware(['auth', 'verified'])->name('product/add_to_cart');
+Route::post('product/add_to_cart', [KeranjangItemController::class, 'addToCart'])->middleware(['auth', 'verified'])->name('product.add_to_cart');
 
 Route::get('cart', [KeranjangItemController::class, 'listKeranjangItem'])->middleware(['auth', 'verified'])->name('cart');
 
-Route::post('/checkout', [CheckoutController::class, 'index'])->middleware(['auth', 'verified'])->name('checkout');
+Route::get('checkout', [CheckoutController::class, 'index'])->middleware(['auth', 'verified'])->name('checkout');
 
 Route::get('admin/product', [ProductController::class, 'getAdminProducts'])->middleware(['auth', 'verified']);
 

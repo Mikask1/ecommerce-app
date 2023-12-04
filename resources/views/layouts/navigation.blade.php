@@ -26,10 +26,10 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="/cart">Keranjang
-        <!-- <span class="material-symbols-outlined">
-            shopping_cart
-        </span> -->
         </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/transactions">History</a>
       </li>
       <li class="nav-item nav-link ml-auto">
         <x-dropdown align="center" width="100">

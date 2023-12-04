@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="kiri col-sm-6 d-flex flex-column align-items-center">
                     <img width="240" height="240" class="productImg" src="{{ asset('storage/' . $product->gambar) }}" alt="{{ $product->nama_produk }}">
-                    <form method="POST" action="{{ route('product/add_to_cart') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('product.add_to_cart') }}" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="product_id" value="{{ $product->id }}">
                         <input type="hidden" name="quantity" value=1>

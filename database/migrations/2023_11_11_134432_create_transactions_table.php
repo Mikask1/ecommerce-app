@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->timestamps();
             $table->integer('total_harga');
             $table->enum('metode_bayar', ['QRIS', 'BANK', 'COD', 'PayLater']);
-            $table->enum('status', ['PACKING', 'DELIVERED', 'ARRIVED'])->default('PACKING');
+            $table->enum('status', ['PACKING', 'DELIVERING', 'ARRIVED'])->default('PACKING');
             $table->dateTime('tanggal_pengemasan')->nullable();
             $table->dateTime('tanggal_pengiriman')->nullable();
             $table->dateTime('tanggal_sampai')->nullable();
