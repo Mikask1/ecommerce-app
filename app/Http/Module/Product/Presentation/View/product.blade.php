@@ -1,7 +1,18 @@
 <x-app-layout>
+    <body style="margin-top:50px;">
+        @if (session('status'))
+            <div class="alert alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
 
-    <body>
-        <div class="container mx-auto" style="min-width: 900px; max-width: 900px; margin-top:6rem;">
+        @if (session('error'))
+            <div class="alert alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+        
+        <div class="container mx-auto" style="min-width: 900px; max-width: 900px; margin-top:4rem;">
             <div class="row">
                 <div class="kiri col-sm-6 d-flex flex-column align-items-center">
                     <img width="240" height="240" class="productImg" src="{{ asset('storage/' . $product->gambar) }}" alt="{{ $product->nama_produk }}">

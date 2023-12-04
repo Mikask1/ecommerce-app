@@ -40,7 +40,7 @@ class KeranjangItemController
         );
 
         $this->create_keranjang_item_service->execute($createKeranjangItemRequest);
-        return redirect()->back()->with('error', 'Product added to cart successfully');
+        return redirect()->back()->with('status', 'Product added to cart successfully');
     }
 
     public function listKeranjangItem()
