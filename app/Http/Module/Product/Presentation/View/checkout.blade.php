@@ -11,7 +11,7 @@
 
                 <form action="/create_transaction" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @foreach($checkoutData as $data)
+                    @foreach($checkoutData as $index => $data)
                     <div class="row receipt justify-content-between align-items-center">
                         <div class="col-7 namaProduk">
                             <h5>{{ $data['product']->nama_produk }}</h5>
@@ -26,6 +26,8 @@
                         </div>
 
                     </div>
+                    <input type="hidden" name="product[{{ $index }}][product_id]" value="{{ $data['product']->id }}">
+                    <input type="hidden" name="product[{{ $index }}][quantity]" value="{{ $data['quantity'] }}">
                     @endforeach
 
                     <div class="row receipt justify-content-between align-items-center">
@@ -39,6 +41,9 @@
                         </div>
                     </div>
 
+                    <input type="hidden" name="total_harga" value="{{ $totalPrice }}">
+                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+
                     <div class="metodeBayar">
                         <h5>Metode pembayaran</h5>
                         <div class="select-wrapper">
@@ -51,7 +56,6 @@
                             <div class="select-icon"></div>
                         </div>
                     </div>
-
 
                     <div class="bayar">
                         <button type="submit" class="btn btn-dark">Lakukan pembayaran</button>
@@ -155,7 +159,7 @@
             }
         </style>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" `integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
 
 
     </body>
