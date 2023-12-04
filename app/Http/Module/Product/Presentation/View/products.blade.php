@@ -4,14 +4,10 @@
         <div class="container">
             <div class="category m-4">
                 <p class="title">Kategori</p>
-                <div class="row" style="gap:1rem;">
+                <div class="row" style="gap:0.5rem;">
                     @foreach ($categories as $cat)
-                        <a href="?category={{ $cat->slug }}"
-                            class="col-sm-3 p-2 m-2 d-flex flex-column align-items-center shadow-sm catColumn hover-scale">
-                            <img class="align-self-center"
-                                src="https://cdn.discordapp.com/attachments/1163489620005224503/1168180643176386580/New_Project_1.png?ex=655a0e81&is=65479981&hm=7df5f06702f692aba62b58cc8cc83718ce1834edcd5017806fe5608d7e13511f&"
-                                width="75%" height="75%" alt="Deskripsi Gambar">
-                            <p class="align-self-center d-flex">{{ $cat->nama_kategori }}</p>
+                        <a href="?category={{ $cat->slug }}" class="col-sm-3 p-2 m-2 shadow-sm catColumn hover-scale">
+                            <p>{{ $cat->nama_kategori }}</p>
                         </a>
                     @endforeach
                 </div>
@@ -19,14 +15,14 @@
             <hr />
             <div class="newest m-4">
                 <p class="title">Yang Terbaru</p>
-                <div class="row">
+                <div class="row mt-4 m-1">
                     <div class="row" style="gap:2rem;">
                         @foreach ($products as $product)
                             <a href="/product/{{ $product->id }}"
                                 class="col-sm-3 d-flex flex-column align-items-center shadow-sm productList hover-scale">
                                 <div class="card product p-3">
-                                    <img class="card-img-top"
-                                        src="{{ asset('storage/' . $product->gambar) }}" alt="Card image cap">
+                                    <img class="card-img-top" src="{{ asset('storage/' . $product->gambar) }}"
+                                        alt="Card image cap">
                                     <div class="card-body">
                                         <p class="nama">{{ $product->nama_produk }}</p>
                                         <p class="harga"> Rp{{ number_format($product->harga, 0, ',', '.') }}</p>
@@ -76,10 +72,18 @@
     .catColumn {
         background-color: white;
         border: 1px solid black;
-        border-radius: 10px;
+        border-radius: 6px;
         text-decoration: none;
         color: #3c0f83;
-        font-size: 24px;
+        font-size: 18px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+
+    p {
+        margin-bottom: 0;
     }
 
     .catColumn:hover {
