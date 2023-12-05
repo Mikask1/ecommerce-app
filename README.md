@@ -4,4 +4,4 @@
 - Kalyana Putri Al Kanza (5025211137)
 
 ## Demonstration
-Youtube: https://www.youtube.com/watch?v=GxMbOl1kxvk
+- Youtube: https://www.youtube.com/watch?v=GxMbOl1kxvk
