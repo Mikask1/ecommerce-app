@@ -25,7 +25,7 @@ Route::get('cart', [KeranjangItemController::class, 'listKeranjangItem'])->middl
 
 Route::get('checkout', [CheckoutController::class, 'index'])->middleware(['auth', 'verified'])->name('checkout');
 
-Route::get('admin/product', [ProductController::class, 'getAdminProducts'])->middleware(['auth', 'verified']);
+Route::get('admin/product', [ProductController::class, 'getAdminProducts'])->middleware(['auth', 'verified'])->name('admin.product');
 
 Route::get('admin/product/create', [ProductController::class, 'getAdminCreateProduct'])->middleware(['auth', 'verified'])->name('admin.product.create');
 

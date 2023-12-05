@@ -1,7 +1,7 @@
 <x-app-layout>
 
     <body style="padding-top:50px">
-        <form action="{{ route('checkout') }}" method="post" id="checkoutForm">
+        <form action="{{ route('checkout') }}" method="GET" id="checkoutForm">
             @csrf
             <div class="container p-5 mb-3">
                 @foreach ($products as $product)

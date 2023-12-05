@@ -104,7 +104,7 @@ class TransactionController
 
     public function listAdminTransactions()
     {
-        $transactions = Transaction::with('details.product')->get();
+        $transactions = Transaction::with('details.product')->get()->sortByDesc('created_at');
 
         return view('admin.admin-transactions', ['transactions' => $transactions]);
     }
